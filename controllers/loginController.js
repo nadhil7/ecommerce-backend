@@ -17,6 +17,6 @@ export const login = async (req, res) => {
     }
     catch (err) {
         res.json({message:"error",success:"false"})
-        console.log(err);
+        console.log(err);fbdfbfbdbs
     }
 }
