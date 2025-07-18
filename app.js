@@ -21,6 +21,12 @@ app.use(session({
     saveUninitialized:false,
     store:mongostore.create({mongoUrl:"mongodb://127.0.0.1:27017/ecomercebackend"})
 }))
+app.set(express.static('public'))
 // app.use("/admin",adminRouter);
+app.use((req,res,next)=>{
+    res.locals.message=req.session.message;
+    delete req.session.message
+    next()
+})
 app.use("/user",userRouter);
 app.use("/login",loginRouter);

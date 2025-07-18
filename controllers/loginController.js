@@ -13,10 +13,10 @@ export const login = async (req, res) => {
         if (hashed == false) {
             return res.json({ message: "Password incorrect", success: "true" })
         }
-        return res.json({message:"login succesfull",success:"true"})
+         req.session.message={message:"login succesfull",success:"true"}
     }
     catch (err) {
-    //  return res.json({message:err,success:"false"})
+        res.json({message:"error",success:"false"})
         console.log(err);
     }
 }

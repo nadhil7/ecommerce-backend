@@ -12,7 +12,8 @@ export const signup = async (req, res) => {
             name, 
             email, 
             password: hashedpass,
-            phone
+            phone,
+            image:req.filename
         })
         await data.save();
         return res.json({message:"user created",
@@ -21,5 +22,6 @@ export const signup = async (req, res) => {
     }
     catch (err) {
         res.json({message:"error occured!"});
+        console.log(err);
     }
 } 

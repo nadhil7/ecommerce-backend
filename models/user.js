@@ -25,10 +25,10 @@ const model = new schema({
         type:Boolean,
         default:true
     },
-    // image:{
-    //     type:String,
-    //     require:true
-    // }
+    image:{
+        type:String,
+        require:true
+    }
 })
 const user = mongoose.model("user",model,"users");
 export default user;
