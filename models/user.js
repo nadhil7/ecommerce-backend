@@ -19,16 +19,16 @@ const model = new schema({
     },
     role:{
         type:Boolean,
-        default:true
+        default:false
     },
     status:{
         type:Boolean,
         default:true
     },
-    image:{
-        type:String,
-        require:true
-    }
+    // image:{
+    //     type:String,
+    //     require:true
+    // }
 })
-const user = mongoose.model("user",model);
+const user = mongoose.model("user",model,"users");
 export default user;

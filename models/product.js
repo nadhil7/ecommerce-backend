@@ -22,5 +22,5 @@ const model = new schema({
         require:true
     }
 })
-const product = mongoose.model("product",model);
+const product = mongoose.model("products",model);
 export default user;
