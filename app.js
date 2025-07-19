@@ -2,9 +2,10 @@ import express from'express'
 import mongoose from 'mongoose'
 import session from 'express-session'
 import mongostore from "connect-mongo"
-// import adminRouter from './routers/adminRouter.js'
+import adminRouter from './routers/adminRouter.js'
 import userRouter from './routers/userRouter.js'
 import loginRouter from './routers/loginRouter.js'
+import productRouter from './routers/productRouter.js'
 const uri = "mongodb://127.0.0.1:27017/ecomercebackend"
 mongoose.connect(uri).then(()=>{
     console.log("database connected")
@@ -21,7 +22,7 @@ app.use(session({
     saveUninitialized:false,
     store:mongostore.create({mongoUrl:"mongodb://127.0.0.1:27017/ecomercebackend"})
 }))
-app.set(express.static('public'))
+app.use(express.static('uploads'))
 // app.use("/admin",adminRouter);
 app.use((req,res,next)=>{
     res.locals.message=req.session.message;
@@ -29,4 +30,6 @@ app.use((req,res,next)=>{
     next()
 })
 app.use("/user",userRouter);
+app.use("/product",productRouter);
+app.use("/admin",adminRouter);
 app.use("/login",loginRouter);
