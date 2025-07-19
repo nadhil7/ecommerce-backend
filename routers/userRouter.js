@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import session from 'express-session'
-import {signup,} from '../controllers/userController.js'
+import {signup,useredit,} from '../controllers/userController.js'
 const router = express.Router()
 const storage = multer.diskStorage({
     destination:function(req,file,cb){
@@ -20,4 +20,6 @@ const upload = multer({
     storage:storage
 }).single('image')
 router.post('/signup',upload,signup)
+router.get('/useredit/:id',useredit)
+// router.put('/editsave/:id',upload,editsave)
 export default router

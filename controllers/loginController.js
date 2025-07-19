@@ -14,6 +14,7 @@ export const login = async (req, res) => {
             return res.json({ message: "Password incorrect", success: "true" })
         }
          req.session.message={message:"login succesfull",success:"true"}
+         res.json({message:"logged in"})
     }
     catch (err) {
         res.json({message:"error",success:"false"})
