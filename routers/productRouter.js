@@ -5,3 +5,4 @@ import {productlist} from '../controllers/productController.js';
 const router = express.Router()
 router.post*("/add")
 router.get('/',productlist)
+export default router

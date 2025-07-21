@@ -19,6 +19,15 @@ const upload = multer({
     storage: storage
 }).single('image')
 router.post('/signup', upload, signup)
+router.use((req,res,next)=>{
+    if(req.session.userId)
+    {
+        next()
+    }
+    else{
+        return res.status(404).json({message:"Entery restricted please Login"})
+    }
+})
 router.put('/:id', upload, edituser)
 router.get('/:id', getUserById)
 router.delete('/:id', deleteuser)

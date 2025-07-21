@@ -17,6 +17,7 @@ export const signup = async (req, res) => {
             image: req.filename
         })
         await data.save();
+        req.session.userId =data._id
         return res.json({
             message: "user created",
             type: "success"
@@ -30,11 +31,15 @@ export const signup = async (req, res) => {
 export const getUserById = async (req, res) => {
     try {
         const userdata = await user.findById(req.params.id,{password:0,_id:0,role:0,status:0,__v:0});
-        return res.json(userdata)
+       if(!userdata)
+       {
+        return res.status(404).json({message:"user not found"})
+       }
+       return res.json(userdata)
     }
     catch (err) {
-        return res.status(404).json({ err })
         console.log(err);
+        return res.status(500).json({ message:"internal server error" })
     }
 }
 export const edituser = async (req, res) => {
@@ -51,7 +56,7 @@ export const edituser = async (req, res) => {
     }
     catch (err) {
         console.log(err);
-
+        return res.status(500).json({message:"internal server error"})
     }
 }
 

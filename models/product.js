@@ -23,4 +23,4 @@ const model = new schema({
     }
 })
 const product = mongoose.model("products",model);
-export default user;
+export default product;
