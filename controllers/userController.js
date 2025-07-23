@@ -62,12 +62,17 @@ export const edituser = async (req, res) => {
 
 export const deleteuser =async(req,res)=>{
     try{
+        if(req.session.userId!= req.params.id)
+        {
+        res.status(404).json({message:"cannot delete the user"})
+
+        }
         await user.findByIdAndDelete(req.params.id);
-        res.json({message:"user deleted successfully"})
+        res.status(200).json({message:"user deleted successfully"})
     }
     catch(err)
     {
-        res.json({message:"error occured"})
         console.log(err);
+        res.status(500).json({message:"error occured"})
     }
 }

@@ -25,7 +25,7 @@ router.use((req,res,next)=>{
         next()
     }
     else{
-        return res.status(404).json({message:"Entery restricted please Login"})
+        return res.status(404).json({message:"Entery restricted"})
     }
 })
 router.put('/:id', upload, edituser)

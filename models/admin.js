@@ -5,22 +5,14 @@ const model = new schema({
         type:String,
         require:true
     },
-    price:{
+    email:{
         type:String,
         require:true
     },
-    discription:{
-        type:String,
-        require:true
-    },
-    brand:{
-        type:String,
-        require:true
-    },
-    image:{
+    password:{
         type:String,
         require:true
     }
 })
-const product = mongoose.model("products",model);
-export default product;
+const admin = mongoose.model("admin",model,"admin");
+export default admin;
