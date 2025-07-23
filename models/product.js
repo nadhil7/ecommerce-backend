@@ -20,6 +20,10 @@ const model = new schema({
     image:{
         type:String,
         require:true
+    },
+    category:{
+        type:mongoose.Schema.Types.ObjectId,
+        required:true,
     }
 })
 const product = mongoose.model("products",model);

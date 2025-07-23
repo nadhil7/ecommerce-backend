@@ -16,9 +16,9 @@ export const login = async (req, res) => {
         }
         if (data.role == false) {
             req.session.userId = data._id;
-            return res.status(200).json({ message: "logged in As User", success: true })
+            return res.status(200).json({ message: "User logged in ", success: true })
         }
-        return res.status(404).json({ message: "This is Usser login", success: false })
+        return res.status(404).json({ message: " please login ", success: false })
     }
     catch (err) {
         res.json({ message: "error", success: false })

@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import product from '../models/product.js';
-import {productlist,productadd} from '../controllers/productController.js';
+import {productlist,productadd,productedit,productdelete} from '../controllers/productController.js';
 const router = express.Router()
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -20,7 +20,7 @@ const upload = multer({
 }).single('image')
 router.get('/',productlist)
 router.use((req,res,next)=>{
-    if(!req.session.admin)
+    if(!req.session.adminId)
     {
     return res.status(404).json({meassage:"entry restricted"})
     }
@@ -29,4 +29,6 @@ router.use((req,res,next)=>{
     }
 })
 router.post('/add',upload,productadd)
+router.put('/edit/:id',upload,productedit)
+router.delete('/delete/:id',productdelete)
 export default router

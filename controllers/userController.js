@@ -17,7 +17,7 @@ export const signup = async (req, res) => {
             image: req.filename
         })
         await data.save();
-        req.session.userId =data._id
+        req.session.userId = data._id
         return res.json({
             message: "user created",
             type: "success"
@@ -30,16 +30,15 @@ export const signup = async (req, res) => {
 }
 export const getUserById = async (req, res) => {
     try {
-        const userdata = await user.findById(req.params.id,{password:0,_id:0,role:0,status:0,__v:0});
-       if(!userdata)
-       {
-        return res.status(404).json({message:"user not found"})
-       }
-       return res.json(userdata)
+        const userdata = await user.findById(req.params.id, { password: 0, _id: 0, role: 0, status: 0, __v: 0 });
+        if (!userdata) {
+            return res.status(404).json({ message: "user not found" })
+        }
+        return res.json(userdata)
     }
     catch (err) {
         console.log(err);
-        return res.status(500).json({ message:"internal server error" })
+        return res.status(500).json({ message: "internal server error" })
     }
 }
 export const edituser = async (req, res) => {
@@ -56,23 +55,25 @@ export const edituser = async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        return res.status(500).json({message:"internal server error"})
+        return res.status(500).json({ message: "internal server error" })
     }
 }
 
-export const deleteuser =async(req,res)=>{
-    try{
-        if(req.session.userId!= req.params.id)
-        {
-        res.status(404).json({message:"cannot delete the user"})
-
+export const deleteuser = async (req, res) => {
+    try {
+        const user = await user.findById(req.params.id)
+        if(!user){
+        res.status(404).json({ message: "no user found" })
         }
-        await user.findByIdAndDelete(req.params.id);
-        res.status(200).json({message:"user deleted successfully"})
+        if (req.session.userId == req.params.id) {
+            await user.findByIdAndDelete(req.params.id);
+            req.session.destroy()
+            res.status(200).json({ message: "user deleted successfully" })
+        }
+        res.status(404).json({ message: "cannot delete the user" })
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err);
-        res.status(500).json({message:"error occured"})
+        res.status(500).json({ message: "error occured" })
     }
 }
