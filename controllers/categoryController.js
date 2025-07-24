@@ -2,12 +2,14 @@ import category from '../models/category.js'
 
 export const categorylist = async(req,res)=>{
     try{
-        const catogeries = category.find({});
+        const catogeries = await category.find({});
+        console.log(catogeries);
+        
         if(!catogeries)
         {
             return res.status(404).json({message:"category Not found!"})
         }
-        return res.status(200).json({categories})
+        return res.status(200).json({catogeries})
     }
     catch(err)
     {
