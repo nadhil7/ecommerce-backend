@@ -21,7 +21,7 @@ const model = new schema({
         type:String,
         require:true
     },
-    category:{
+    categoryId:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
     }

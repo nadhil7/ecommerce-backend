@@ -1,7 +1,6 @@
 import express from "express";
 import user from '../models/user.js'
 import bcrypt from 'bcrypt';
-import { Cookie } from "express-session";
 
 export const login = async (req, res) => {
     const { email, password } = req.body

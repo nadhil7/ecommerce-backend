@@ -1,10 +1,9 @@
 import category from '../models/category.js'
+import product from '../models/product.js'
 
 export const categorylist = async(req,res)=>{
     try{
-        const catogeries = await category.find({});
-        console.log(catogeries);
-        
+        const catogeries = await category.find({},{_id:0,__v:0});
         if(!catogeries)
         {
             return res.status(404).json({message:"category Not found!"})
@@ -20,6 +19,7 @@ export const categorylist = async(req,res)=>{
 
 export const categoryadd =async(req,res)=>{
     try{
+        console.log(req.body);
         const {name,discription}= req.body
         await category.insertOne({
             name,discription
@@ -44,7 +44,7 @@ export const categoryedit =async(req,res)=>{
         await category.findByIdAndUpdate(req.params.id,{
             name,discription
         })
-        return res.status(200).json({message:""})
+        return res.status(200).json({message:"Category Edited Succesfully"})
     }
     catch(err)
     {
@@ -55,11 +55,12 @@ export const categoryedit =async(req,res)=>{
 
 export const categorydelete =async(req,res)=>{
     try{
-        const data = await findById(req.params.id)
+        const data = await category.findById(req.params.id)
         if(!data)
         {
-            return res.status(404).json({message:"no category found to delete"})
+        return res.status(404).json({message:"no category found to delete"})
         }
+        await product.deleteMany({categoryId:req.params.id})
         await category.findByIdAndDelete(req.params.id)
         return res.status(200).json({message:"category deleted successfully"})
     }

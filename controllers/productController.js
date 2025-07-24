@@ -14,12 +14,14 @@ export const productlist =async(req,res)=>{
 }
 export const productadd =async (req,res)=>{
     try{
-        const {name,price ,discription,category,brand}= req.body
+        const {name,price ,discription,categoryname,brand}= req.body
+        const categoryfind = await category.findOne({categoryname})
+        const categoryId = categoryfind._id
        const adding = await product.insertOne({
             name,
             price,
             brand,
-            category,
+            categoryId:categoryId,
             discription,
             image:req.filename
         })

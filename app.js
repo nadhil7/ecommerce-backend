@@ -7,7 +7,7 @@ import userRouter from './routers/userRouter.js'
 import loginRouter from './routers/loginRouter.js'
 import productRouter from './routers/productRouter.js'
 import categoryRouter from './routers/catrgoryRouter.js'
-import cartRouter from './routers/ca'
+import cartRouter from './routers/cartRouter.js'
 const uri = "mongodb://127.0.0.1:27017/ecomercebackend"
 mongoose.connect(uri).then(()=>{
     console.log("database connected")

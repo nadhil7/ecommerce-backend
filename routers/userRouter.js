@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import session from 'express-session'
-import { signup, getUserById, edituser ,deleteuser} from '../controllers/userController.js'
+import { signup, getUserById, edituser, deleteuser, logout } from '../controllers/userController.js'
 const router = express.Router()
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -19,16 +19,16 @@ const upload = multer({
     storage: storage
 }).single('image')
 router.post('/signup', upload, signup)
-router.use((req,res,next)=>{
-    if(req.session.userId)
-    {
+router.use((req, res, next) => {
+    if (req.session.userId) {
         next()
     }
-    else{
-        return res.status(404).json({message:"Entery restricted"})
+    else {
+        return res.status(404).json({ message: "Entery restricted" })
     }
 })
 router.put('/:id', upload, edituser)
 router.get('/:id', getUserById)
 router.delete('/:id', deleteuser)
+router.delete("/logout", logout)
 export default router

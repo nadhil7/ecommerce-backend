@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 const schema = mongoose.Schema;
 const model = new schema({
     userId: {

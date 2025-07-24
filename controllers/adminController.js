@@ -1,6 +1,4 @@
-import express from "express";
 import bcrypt from'bcrypt'
-import Admin from '../models/admin.js'
 import admin from "../models/admin.js";
 export const login =async (req,res)=>{
    const { email, password } = req.body
@@ -23,7 +21,7 @@ export const login =async (req,res)=>{
 }
 
 export const logout = (req, res) => {
-    req.session.destroy((err) => {
+    req.session.adminId.destroy((err) => {
         if (err) {
             return res.status(500).json({ success: false })
         }

@@ -77,3 +77,15 @@ export const deleteuser = async (req, res) => {
         res.status(500).json({ message: "error occured" })
     }
 }
+export const logout = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ success: false })
+        }
+        else {
+            res.status(200).json({message:"logout completed", success: true })
+
+        }
+    })
+
+}

@@ -4,7 +4,7 @@ const router = express.Router()
 
 router.get("/",categorylist)
 router.use((req,res,next)=>{
-    if(req.session.admin)
+    if(req.session.adminId)
     {
         next()
     }
