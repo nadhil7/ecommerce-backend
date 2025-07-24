@@ -1,8 +1,18 @@
 import express from 'express';
-import {showcart} from '../controllers/cartController.js'
+import { showcart, addtocart, editcart } from '../controllers/cartController.js'
 const router = express.Router();
 
-router.get("/",showcart)
+router.use((req, res, next) => {
+    if (req.session.userId) {
+        next()
+    }
+    else {
+        return res.status(404).json({ message: "entry restricted" })
+    }
+})
+router.get("/", showcart)
+router.post("/", addtocart)
+router.put("/", editcart)
 
 
 

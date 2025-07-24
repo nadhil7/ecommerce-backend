@@ -21,7 +21,7 @@ export const productadd =async (req,res)=>{
             name,
             price,
             brand,
-            categoryId:categoryId,
+            categoryId,
             discription,
             image:req.filename
         })
