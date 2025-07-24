@@ -3,7 +3,8 @@ import cart from '../models/cart.js'
 export const showcart = async(req,res)=>{
     try{
         const userId = req.session.userId
-        console.log(userId);
+        const cartdata = await cart.findOne({userId:userId})
+
         res.send("hello")
        
     }
