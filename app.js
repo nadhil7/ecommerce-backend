@@ -6,6 +6,7 @@ import adminRouter from './routers/adminRouter.js'
 import userRouter from './routers/userRouter.js'
 import loginRouter from './routers/loginRouter.js'
 import productRouter from './routers/productRouter.js'
+import categoryRouter from './routers/catrgoryRouter.js'
 const uri = "mongodb://127.0.0.1:27017/ecomercebackend"
 mongoose.connect(uri).then(()=>{
     console.log("database connected")
@@ -33,3 +34,4 @@ app.use("/user",userRouter);
 app.use("/product",productRouter);
 app.use("/admin",adminRouter);
 app.use("/login",loginRouter);
+app.use("/category",categoryRouter);
