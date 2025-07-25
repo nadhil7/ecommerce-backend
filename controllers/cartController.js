@@ -48,7 +48,7 @@ export const addtocart = async(req,res)=>{
     catch(err)
     {
         console.log(err);
-        return res.status(500).json({message:"error can't add to cart"})
+        return res.status(500).json({message:"error:- can't add to cart"})
     }
 }
 export const editcart = async(req,res)=>{
@@ -60,6 +60,28 @@ export const editcart = async(req,res)=>{
     catch(err)
     {
         console.log(err);
-        return res.status(500).json({message:"error can't edit the cart"})
+        return res.status(500).json({message:"error:- can't edit the cart"})
+    }
+}
+
+export const deletecart = async(req,res)=>{
+    try{
+        const userId = req.session.userId
+        const cartdata = await cart.findOne({userId:userId})
+        if(!cartdata)
+        {
+        return res.status(500).json({message:" there cart is no cart found"})
+        }
+        const cartdel = await cart.findByIdAndDelete(userId)
+        if(!cartdel)
+        {
+        return res.status(500).json({message:"can't delete the cart"})
+        }
+        return res.status(500).json({message:"cart deleted successfully"})
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json({message:"error:- while deleting the cart"})
     }
 }

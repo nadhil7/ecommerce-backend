@@ -1,6 +1,5 @@
 import express from 'express';
 import multer from 'multer';
-import session from 'express-session'
 import { signup, getUserById, edituser, deleteuser, logout } from '../controllers/userController.js'
 const router = express.Router()
 const storage = multer.diskStorage({
@@ -27,8 +26,8 @@ router.use((req, res, next) => {
         return res.status(404).json({ message: "Entery restricted" })
     }
 })
-router.put('/:id', upload, edituser)
+router.delete("/log/",logout)
 router.get('/:id', getUserById)
 router.delete('/:id', deleteuser)
-router.delete("/logout", logout)
+router.put('/:id', upload, edituser)
 export default router

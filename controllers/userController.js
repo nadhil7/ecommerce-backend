@@ -2,6 +2,16 @@ import express from "express";
 import user from '../models/user.js'
 import bcrypt from 'bcrypt';
 
+export const logout = (req, res) => {
+    const deluser =req.session.userId = null;
+    console.log(deluser);
+    if (req.session.userId == null) {
+        res.status(200).json({ message: "logout completed", success: true })
+    }
+    else {
+        return res.status(404).json({message:"error occured", success: false })
+    }
+}
 
 export const signup = async (req, res) => {
     try {
@@ -60,28 +70,20 @@ export const edituser = async (req, res) => {
 
 export const deleteuser = async (req, res) => {
     try {
-        const user = await user.findById(req.params.id)
-        if (!user) {
-            res.status(404).json({ message: "no user found" })
+        const users = await user.findById(req.params.id);
+        if (!users) {
+            return res.status(404).json({ message: "no user found" })
         }
         if (req.session.userId == req.params.id) {
             await user.findByIdAndDelete(req.params.id);
-            req.session.destroy()
-            res.status(200).json({ message: "user deleted successfully" })
+            const deluser = req.session.userId = null;
+            return res.status(200).json({ message: "user deleted successfully" })
         }
-        res.status(404).json({ message: "cannot delete the user" })
+        return res.status(404).json({ message: "user did'nt deleted " })
+
     }
     catch (err) {
         console.log(err);
-        res.status(500).json({ message: "error occured" })
-    }
-}
-export const logout = (req, res) => {
-    req.session.userId = null;
-    if (req.session.userId == null) {
-        res.status(200).json({ message: "logout completed", success: true })
-    }
-    else {
-        return res.status(500).json({ success: false })
+        return res.status(500).json({ err })
     }
 }

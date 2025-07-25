@@ -13,11 +13,8 @@ export const login = async (req, res) => {
         if (hashed == false) {
             return res.status(400).json({ message: "Password incorrect", success: false })
         }
-        if (data.role == false) {
-            req.session.userId = data._id;
-            return res.status(200).json({ message: "User logged in ", success: true })
-        }
-        return res.status(404).json({ message: " please login ", success: false })
+        req.session.userId = data._id;
+        return res.status(200).json({ message: "User logged in ", success: true })
     }
     catch (err) {
         res.json({ message: "error", success: false })

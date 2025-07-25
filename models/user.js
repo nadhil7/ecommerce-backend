@@ -17,10 +17,6 @@ const model = new schema({
         type:String,
         require:true
     },
-    role:{
-        type:Boolean,
-        default:false
-    },
     status:{
         type:Boolean,
         default:true
