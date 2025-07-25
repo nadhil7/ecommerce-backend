@@ -7,7 +7,7 @@ const model = new schema({
     },
     items: [{
         productId: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             require: true
         },
         quantity: {

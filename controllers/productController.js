@@ -3,8 +3,8 @@ import category from '../models/category.js'
 
 export const productlist =async(req,res)=>{
     try{
-        const products = await product.find({},{__v:0,_id:0});
-        return res.status(200).json({products})
+        const products = await product.find({},{__v:0});
+        return res.status(200).json(products)
     }
     catch(err)
     {

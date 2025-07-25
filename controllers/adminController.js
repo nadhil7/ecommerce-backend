@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
 import admin from "../models/admin.js";
+import user from '../models/user.js'
 export const login = async (req, res) => {
     const { email, password } = req.body
     try {
@@ -19,7 +20,17 @@ export const login = async (req, res) => {
         console.log(err);
     }
 }
-
+export const allusers =async(req,res)=>{
+    try{
+        const users =await user.find({},{__v:0,password:0})
+        return res.status(200).json(users)
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json({message:"users not found"})
+    }
+}
 export const logout = (req, res) => {
     req.session.adminId = null;
     if (req.session.adminId == null) {

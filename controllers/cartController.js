@@ -1,106 +1,126 @@
+import mongoose from 'mongoose';
 import cart from '../models/cart.js'
 
-export const showcart = async(req,res)=>{
-    try{
+export const showcart = async (req, res) => {
+    try {
         const userId = req.session.userId
-        const cartdata = await cart.aggregate({
+        const cartdata = await cart.aggregate([
+            { $match: { userId:new mongoose.Types.ObjectId(userId) } },
+            { $unwind: "$items" },
+            {
+                $lookup: {
+                    from: "products",
+                    localField: "items.productId",
+                    foreignField: "_id",
+                    as: "productDetails"
+                }
+            },
+            { $unwind: "$productDetails" },
+            {
+                $project: {
+                    _id: 0,
+                    productId: "$items.productId",
+                    quantity: "$items.quantity",
+                    name: "$productDetails.name",
+                    price: "$productDetails.price",
+                    subTotal: {
+                        $multiply: ["$items.quantity", "$productDetails.price"]
+                    }
+                }
+            },
 
-        })
-        
-        // return res.status(200).json(cartdata)
+        ]);
+        if (cartdata.length == 0) {
+            return res.status(404).json({ message: "cart is empty" })
+        }
+        const grandtotal = cartdata.reduce((sum, item) => sum + item.subTotal, 0)
+        return res.status(200).json({items:cartdata,total:grandtotal})
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err);
-        return res.status(500).json({message:"error can't show the cart"})
+        return res.status(500).json({ message: "error can't show the cart" })
     }
 }
-export const addtocart = async(req,res)=>{
-    try{
-         const userId = req.session.userId
-        const {quantity,productId} = req.body
-        const cartdata = await cart.findOne({userId:userId})
-        if(!cartdata)
-        {
+export const addtocart = async (req, res) => {
+    try {
+        const userId = req.session.userId
+        const { quantity, productId } = req.body
+        const cartdata = await cart.findOne({ userId: userId })
+        if (!cartdata) {
             const newcart = await cart.create({
                 userId,
-                items:[{
+                items: [{
                     productId,
                     quantity
-                }]   
+                }]
             })
-             return res.status(200).json(cartdata)
+            return res.status(200).json(cartdata)
         }
-        else{
-            const itemindex = cartdata.items.findIndex(index => index.productId==productId)
-            if(itemindex>-1)
-            {
+        else {
+            const itemindex = cartdata.items.findIndex(index => index.productId == productId)
+            if (itemindex > -1) {
                 let productadd = cartdata.items[itemindex]
                 productadd.quantity += quantity
-                cartdata.items[itemindex]=productadd
+                cartdata.items[itemindex] = productadd
             }
-            else{
+            else {
                 cartdata.items.push({
-                    productId,quantity
+                    productId, quantity
                 })
             }
-            const addedcart =await cartdata.save()
-            return res.status(200).json(addedcart)
+            const addedcart = await cartdata.save()
+            return res.status(200).json({ message: "added to cart", addedcart })
         }
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err);
-        return res.status(500).json({message:"error:- can't add to cart"})
+        return res.status(500).json({ message: "error:- can't add to cart" })
     }
 }
-export const editcart = async(req,res)=>{
-    try{
+export const editcart = async (req, res) => {
+    try {
         const userId = req.session.userId;
-        const {reqquantity,reqproductId}=req.body
-        let cartdata =await cart.findById({userId:userId})
-        console.log(cartdata);
-          const itemindex = cartdata.items.findIndex(index => index.productId==reqproductId)
-            if(itemindex>-1)
-            {
-                let productedit = cartdata.items[itemindex]
-                productedit.quantity = reqquantity
-                cartdata.items[itemindex]=productedit
-                await cart.updateOne({userId:userId},
-                    productedit
-                )
-                return res.status(404).json({message:"product edited successfully"})
-            }
-            else{
-                return res.status(404).json({message:"no product to edit"})
-            }
-        
+        const { reqquantity, reqproductId } = req.body
+        let cartdata = await cart.findById({ userId: userId })
+        // console.log(cartdata);
+        const itemindex = cartdata.items.findIndex(index => index.productId == reqproductId)
+        if (itemindex > -1) {
+            let productedit = cartdata.items[itemindex]
+            productedit.quantity = reqquantity
+            cartdata.items[itemindex] = productedit
+            await cart.updateOne({ userId: userId },
+                productedit
+            )
+            let cartdata1 = await cart.findById({ userId: userId })
+
+            return res.status(404).json({ message: "product edited successfully", cartdata1 })
+        }
+        else {
+            return res.status(404).json({ message: "no product to edit" })
+        }
+
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err);
-        return res.status(500).json({message:"error:- can't edit the cart"})
+        return res.status(500).json({ message: "error:- can't edit the cart" })
     }
 }
 
-export const deletecart = async(req,res)=>{
-    try{
+export const deletecart = async (req, res) => {
+    try {
         const userId = req.session.userId
-        const cartdata = await cart.findOne({userId:userId})
-        if(!cartdata)
-        {
-        return res.status(500).json({message:" there cart is no cart found"})
+        const cartdata = await cart.findOne({ userId: userId })
+        if (!cartdata) {
+            return res.status(500).json({ message: " there cart is no cart found" })
         }
-        const cartdel = await cart.findByIdAndDelete(userId)
-        if(!cartdel)
-        {
-        return res.status(500).json({message:"can't delete the cart"})
+        const cartdel = await cart.findByIdAndDelete({userId:userId})
+        if (!cartdel) {
+            return res.status(500).json({ message: "can't delete the cart" })
         }
-        return res.status(500).json({message:"cart deleted successfully"})
+        return res.status(500).json({ message: "cart deleted successfully" })
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err);
-        return res.status(500).json({message:"error:- while deleting the cart"})
+        return res.status(500).json({ message: "error:- while deleting the cart" })
     }
 }

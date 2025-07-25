@@ -25,7 +25,7 @@ app.use(session({
     store:mongostore.create({mongoUrl:"mongodb://127.0.0.1:27017/ecomercebackend"})
 }))
 app.use(express.static('uploads'))
-// app.use("/admin",adminRouter);
+app.use("/admin",adminRouter);
 app.use((req,res,next)=>{
     res.locals.message=req.session.message;
     delete req.session.message

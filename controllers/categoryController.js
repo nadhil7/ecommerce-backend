@@ -3,12 +3,12 @@ import product from '../models/product.js'
 
 export const categorylist = async(req,res)=>{
     try{
-        const catogeries = await category.find({},{_id:0,__v:0});
+        const catogeries = await category.find({},{__v:0});
         if(!catogeries)
         {
             return res.status(404).json({message:"category Not found!"})
         }
-        return res.status(200).json({catogeries})
+        return res.status(200).json(catogeries)
     }
     catch(err)
     {

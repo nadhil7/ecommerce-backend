@@ -1,8 +1,8 @@
 import express from 'express';
 import session from 'express-session'
-import {logout,login} from '../controllers/adminController.js'
+import {logout,login,allusers} from '../controllers/adminController.js'
 const router = express.Router()
-router.get("/login",login)
+router.post("/login",login)
 router.use((req,res,next)=>{
     if(!req.session.adminId)
     {
@@ -11,4 +11,6 @@ router.use((req,res,next)=>{
     next()
 })
 router.delete("/logout",logout)
+router.get("/users",allusers)
+
 export default router
