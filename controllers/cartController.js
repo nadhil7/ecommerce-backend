@@ -3,8 +3,11 @@ import cart from '../models/cart.js'
 export const showcart = async(req,res)=>{
     try{
         const userId = req.session.userId
-        const cartdata = await cart.findOne({userId:userId})
-        return res.status(200).json(cartdata)
+        const cartdata = await cart.aggregate({
+
+        })
+        
+        // return res.status(200).json(cartdata)
     }
     catch(err)
     {
@@ -53,9 +56,25 @@ export const addtocart = async(req,res)=>{
 }
 export const editcart = async(req,res)=>{
     try{
-        const userId = req.session.userId
-        console.log(userId);
-        res.send("hello")
+        const userId = req.session.userId;
+        const {reqquantity,reqproductId}=req.body
+        let cartdata =await cart.findById({userId:userId})
+        console.log(cartdata);
+          const itemindex = cartdata.items.findIndex(index => index.productId==reqproductId)
+            if(itemindex>-1)
+            {
+                let productedit = cartdata.items[itemindex]
+                productedit.quantity = reqquantity
+                cartdata.items[itemindex]=productedit
+                await cart.updateOne({userId:userId},
+                    productedit
+                )
+                return res.status(404).json({message:"product edited successfully"})
+            }
+            else{
+                return res.status(404).json({message:"no product to edit"})
+            }
+        
     }
     catch(err)
     {

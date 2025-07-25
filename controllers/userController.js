@@ -3,8 +3,7 @@ import user from '../models/user.js'
 import bcrypt from 'bcrypt';
 
 export const logout = (req, res) => {
-    const deluser =req.session.userId = null;
-    console.log(deluser);
+    req.session.userId = null;
     if (req.session.userId == null) {
         res.status(200).json({ message: "logout completed", success: true })
     }
