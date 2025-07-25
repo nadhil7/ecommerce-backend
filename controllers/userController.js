@@ -1,6 +1,5 @@
 import express from "express";
 import user from '../models/user.js'
-import { ObjectId } from "mongodb";
 import bcrypt from 'bcrypt';
 
 
@@ -62,8 +61,8 @@ export const edituser = async (req, res) => {
 export const deleteuser = async (req, res) => {
     try {
         const user = await user.findById(req.params.id)
-        if(!user){
-        res.status(404).json({ message: "no user found" })
+        if (!user) {
+            res.status(404).json({ message: "no user found" })
         }
         if (req.session.userId == req.params.id) {
             await user.findByIdAndDelete(req.params.id);
@@ -78,14 +77,11 @@ export const deleteuser = async (req, res) => {
     }
 }
 export const logout = (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            return res.status(500).json({ success: false })
-        }
-        else {
-            res.status(200).json({message:"logout completed", success: true })
-
-        }
-    })
-
+    req.session.userId = null;
+    if (req.session.userId == null) {
+        res.status(200).json({ message: "logout completed", success: true })
+    }
+    else {
+        return res.status(500).json({ success: false })
+    }
 }

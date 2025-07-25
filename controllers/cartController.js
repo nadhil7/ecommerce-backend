@@ -4,9 +4,7 @@ export const showcart = async(req,res)=>{
     try{
         const userId = req.session.userId
         const cartdata = await cart.findOne({userId:userId})
-
-        res.send("hello")
-       
+        return res.status(200).json(cartdata)
     }
     catch(err)
     {

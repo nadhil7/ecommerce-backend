@@ -1,7 +1,7 @@
-import bcrypt from'bcrypt'
+import bcrypt from 'bcrypt'
 import admin from "../models/admin.js";
-export const login =async (req,res)=>{
-   const { email, password } = req.body
+export const login = async (req, res) => {
+    const { email, password } = req.body
     try {
         const data = await admin.findOne({ email })
         if (!data) {
@@ -11,8 +11,8 @@ export const login =async (req,res)=>{
         if (hashed == false) {
             return res.status(400).json({ message: "Password incorrect", success: false })
         }
-            req.session.adminId = data._id;
-            return res.status(200).json({ message: "Admin logged in", success: true })
+        req.session.adminId = data._id;
+        return res.status(200).json({ message: "Admin logged in", success: true })
     }
     catch (err) {
         res.json({ message: "error", success: false })
@@ -21,14 +21,11 @@ export const login =async (req,res)=>{
 }
 
 export const logout = (req, res) => {
-    req.session.adminId.destroy((err) => {
-        if (err) {
-            return res.status(500).json({ success: false })
-        }
-        else {
-            res.status(200).json({message:"logout completed", success: true })
-
-        }
-    })
-
+    req.session.adminId = null;
+    if (req.session.adminId == null) {
+        res.status(200).json({ message: "logout completed", success: true })
+    }
+    else {
+        return res.status(500).json({ success: false })
+    }
 }

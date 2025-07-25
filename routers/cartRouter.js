@@ -1,5 +1,5 @@
 import express from 'express';
-import { showcart, addtocart, editcart } from '../controllers/cartController.js'
+import { showcart, addtocart, editcart, deletecart } from '../controllers/cartController.js'
 const router = express.Router();
 
 router.use((req, res, next) => {
@@ -13,6 +13,7 @@ router.use((req, res, next) => {
 router.get("/", showcart)
 router.post("/", addtocart)
 router.put("/", editcart)
+router.delete("/", deletecart)
 
 
 
