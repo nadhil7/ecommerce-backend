@@ -5,7 +5,7 @@ export const showcart = async (req, res) => {
     try {
         const userId = req.session.userId
         const cartdata = await cart.aggregate([
-            { $match: { userId:new mongoose.Types.ObjectId(userId) } },
+            { $match: { userId: new mongoose.Types.ObjectId(userId) } },
             { $unwind: "$items" },
             {
                 $lookup: {
@@ -34,7 +34,7 @@ export const showcart = async (req, res) => {
             return res.status(404).json({ message: "cart is empty" })
         }
         const grandtotal = cartdata.reduce((sum, item) => sum + item.subTotal, 0)
-        return res.status(200).json({items:cartdata,total:grandtotal})
+        return res.status(200).json({ items: cartdata, total: grandtotal })
     }
     catch (err) {
         console.log(err);
@@ -108,16 +108,16 @@ export const editcart = async (req, res) => {
 
 export const deletecart = async (req, res) => {
     try {
-        const userId = req.session.userId
+        const userId = new mongoose.Types.ObjectId(req.session.userId)
         const cartdata = await cart.findOne({ userId: userId })
         if (!cartdata) {
             return res.status(500).json({ message: " there cart is no cart found" })
         }
-        const cartdel = await cart.findByIdAndDelete({userId:userId})
+        const cartdel = await cart.deleteOne({ userId: userId })
         if (!cartdel) {
             return res.status(500).json({ message: "can't delete the cart" })
         }
-        return res.status(500).json({ message: "cart deleted successfully" })
+        return res.status(500).json({delketedcart:cartdata, message: "cart deleted successfully" })
     }
     catch (err) {
         console.log(err);

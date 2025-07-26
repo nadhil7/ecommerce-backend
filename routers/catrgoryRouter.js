@@ -1,17 +1,12 @@
 import express from 'express';
 import {categorylist,categoryadd,categoryedit,categorydelete} from '../controllers/categoryController.js'
+import { middleware } from '../middleware/adminmiddleware.js';
 const router = express.Router()
-
+//router
 router.get("/",categorylist)
-router.use((req,res,next)=>{
-    if(req.session.adminId)
-    {
-        next()
-    }
-    else{
-        return res.status(404).json({message:"admin not logged in :- entry restricted"})
-    }
-})
+//middleware
+router.use(middleware)
+//routers
 router.post("/",categoryadd)
 router.put("/:id",categoryedit)
 router.delete("/:id",categorydelete)

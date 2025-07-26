@@ -28,8 +28,7 @@ export const signup = async (req, res) => {
         await data.save();
         req.session.userId = data._id
         return res.json({
-            message: "user created",
-            type: "success"
+            message: "user created",data
         })
     }
     catch (err) {
@@ -77,7 +76,7 @@ export const deleteuser = async (req, res) => {
         if (req.session.userId == req.params.id) {
             await user.findByIdAndDelete(req.params.id);
             const deluser = req.session.userId = null;
-            return res.status(200).json({ message: "user deleted successfully" })
+            return res.status(200).json({users, message: "this user deleted successfully" })
         }
         return res.status(404).json({ message: "user did'nt deleted " })
 

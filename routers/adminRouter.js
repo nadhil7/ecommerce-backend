@@ -1,5 +1,5 @@
 import express from 'express';
-import {logout,login,allusers} from '../controllers/adminController.js'
+import {logout,login,allusers,showallorders} from '../controllers/adminController.js'
 import { middleware } from '../middleware/adminmiddleware.js';
 
 const router = express.Router()
@@ -18,5 +18,6 @@ router.use(middleware)
 
 router.delete("/logout",logout)
 router.get("/users",allusers)
+router.get("/orders",showallorders)
 
 export default router

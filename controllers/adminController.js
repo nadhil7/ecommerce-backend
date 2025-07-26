@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
 import admin from "../models/admin.js";
 import user from '../models/user.js'
+import order from '../models/order.js';
 export const login = async (req, res) => {
     const { email, password } = req.body
     try {
@@ -38,5 +39,19 @@ export const logout = (req, res) => {
     }
     else {
         return res.status(500).json({ success: false })
+    }
+}
+export const showallorders = async (req, res) => {
+    try {
+        const data = await order.find({},{__v:0})
+        if (data) {
+            return res.status(200).json(data)
+        }
+        else {
+            return res.status(404).json({ message: "Orders are empty" })
+        }
+    }
+    catch (err) {
+        return res.status(500).json({ message: "Internal server error" })
     }
 }
