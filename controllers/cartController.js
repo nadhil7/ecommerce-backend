@@ -43,9 +43,14 @@ export const showcart = async (req, res) => {
 }
 export const addtocart = async (req, res) => {
     try {
-        const userId = req.session.userId
+        if(req.session.userId != req.params.id)
+        {
+            return res.status(200).json({ message: "you can't create cart" })
+
+        }
+        const userId = new mongoose.Types.ObjectId(req.session.userId)
         const { quantity, productId } = req.body
-        const cartdata = await cart.findOne({ userId: userId })
+        const cartdata = await cart.findOne({ userId: userId },{__v:0})
         if (!cartdata) {
             const newcart = await cart.create({
                 userId,
@@ -117,7 +122,7 @@ export const deletecart = async (req, res) => {
         if (!cartdel) {
             return res.status(500).json({ message: "can't delete the cart" })
         }
-        return res.status(500).json({delketedcart:cartdata, message: "cart deleted successfully" })
+        return res.status(500).json({ delketedcart: cartdata, message: "cart deleted successfully" })
     }
     catch (err) {
         console.log(err);

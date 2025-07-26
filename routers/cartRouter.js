@@ -11,7 +11,7 @@ router.use((req, res, next) => {
     }
 })
 router.get("/", showcart)
-router.post("/", addtocart)
+router.post("/:id", addtocart)
 router.put("/", editcart)
 router.delete("/", deletecart)
 

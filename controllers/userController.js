@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose";
 import user from '../models/user.js'
 import bcrypt from 'bcrypt';
 
@@ -8,7 +9,7 @@ export const logout = (req, res) => {
         res.status(200).json({ message: "logout completed", success: true })
     }
     else {
-        return res.status(404).json({message:"error occured", success: false })
+        return res.status(404).json({ message: "error occured", success: false })
     }
 }
 
@@ -28,7 +29,7 @@ export const signup = async (req, res) => {
         await data.save();
         req.session.userId = data._id
         return res.json({
-            message: "user created",data
+            message: "user created", data
         })
     }
     catch (err) {
@@ -69,14 +70,15 @@ export const edituser = async (req, res) => {
 
 export const deleteuser = async (req, res) => {
     try {
-        const users = await user.findById(req.params.id);
+        const userId = new mongoose.Types.ObjectId(req.session.userId)
+        const users = await user.findOne({userId:userId});
         if (!users) {
             return res.status(404).json({ message: "no user found" })
         }
         if (req.session.userId == req.params.id) {
             await user.findByIdAndDelete(req.params.id);
             const deluser = req.session.userId = null;
-            return res.status(200).json({users, message: "this user deleted successfully" })
+            return res.status(200).json({ users, message: "this user deleted successfully" })
         }
         return res.status(404).json({ message: "user did'nt deleted " })
 

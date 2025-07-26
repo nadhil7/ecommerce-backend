@@ -30,7 +30,7 @@ router.use(middleware)
 
 
 //routers
-router.delete("/log/",logout)
+router.delete("/logout/",logout)
 router.get('/:id', getUserById)
 router.delete('/:id', deleteuser)
 router.put('/:id', upload, edituser)
