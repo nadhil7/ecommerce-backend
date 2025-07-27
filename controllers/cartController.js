@@ -129,6 +129,3 @@ export const deletecart = async (req, res) => {
         return res.status(500).json({ message: "error:- while deleting the cart" })
     }
 }
-
-
-
