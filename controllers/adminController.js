@@ -48,6 +48,7 @@ export const showallorders = async (req, res) => {
             return res.status(200).json(data)
         }
         else {
+            return res.status(404).json({ message: "Orders are empty" })
         }
     }
     catch (err) {
