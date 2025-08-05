@@ -3,7 +3,9 @@ import admin from "../models/admin.js";
 import user from '../models/user.js'
 import order from '../models/order.js';
 export const login = async (req, res) => {
+    console.log(req.body);
     const { email, password } = req.body
+    
     try {
         const data = await admin.findOne({ email })
         if (!data) {

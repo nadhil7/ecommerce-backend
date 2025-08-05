@@ -9,6 +9,7 @@ import productRouter from './routers/productRouter.js'
 import categoryRouter from './routers/catrgoryRouter.js'
 import cartRouter from './routers/cartRouter.js'
 import orderRouter from './routers/orderRouter.js'
+import cors from 'cors'
 
 //database
 const uri = "mongodb://127.0.0.1:27017/ecomercebackend"
@@ -19,6 +20,7 @@ mongoose.connect(uri).then(() => {
 const app = express();
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use(cors({origin:"http://localhost:5173",credentials:true}))
 app.use(session({
     secret: "hahaha",
     resave: false,
