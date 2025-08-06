@@ -27,7 +27,6 @@ export const allusers =async(req,res)=>{
     try{
         const users =await user.find({},{__v:0,password:0})
         return res.status(200).json(users)
-        console.log(users);
         
     }
     catch(err)
