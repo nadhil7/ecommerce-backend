@@ -19,7 +19,7 @@ export const login = async (req, res) => {
         return res.status(200).json({ message: "Admin logged in", success: true })
     }
     catch (err) {
-        res.json({ message: "error", success: false })
+        res.json({ message:err, success: false })
         console.log(err);
     }
 }
