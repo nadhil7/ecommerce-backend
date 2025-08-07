@@ -3,6 +3,7 @@ import user from '../models/user.js'
 import bcrypt from 'bcrypt';
 
 export const login = async (req, res) => {
+    console.log(req.body);
     const { email, password } = req.body
     try {
         const data = await user.findOne({ email })
