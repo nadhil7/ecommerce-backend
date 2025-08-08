@@ -5,7 +5,7 @@ import order from '../models/order.js';
 export const login = async (req, res) => {
     console.log(req.body);
     const { email, password } = req.body
-    
+
     try {
         const data = await admin.findOne({ email })
         if (!data) {
@@ -19,21 +19,19 @@ export const login = async (req, res) => {
         return res.status(200).json({ message: "Admin logged in", success: true })
     }
     catch (err) {
-        res.json({ message:err, success: false })
+        res.json({ message: err, success: false })
         console.log(err);
     }
 }
-export const allusers =async(req,res)=>{
-    try{
-        const users =await user.find({},{__v:0,password:0})
-        return res.status(200).json(users)
+export const allusers = async (req, res) => {
+    try {
+        const users = await user.find({}, { __v: 0, password: 0 })
         console.log(users);
-        
+        return res.status(200).json(users)
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err);
-        return res.status(500).json({message:"users not found"})
+        return res.status(500).json({ message: "users not found" })
     }
 }
 export const logout = (req, res) => {
@@ -47,7 +45,7 @@ export const logout = (req, res) => {
 }
 export const showallorders = async (req, res) => {
     try {
-        const data = await order.find({},{__v:0})
+        const data = await order.find({}, { __v: 0 })
         if (data) {
             return res.status(200).json(data)
         }
@@ -57,5 +55,27 @@ export const showallorders = async (req, res) => {
     }
     catch (err) {
         return res.status(500).json({ message: "Internal server error" })
+    }
+}
+
+export const statusUpdate = async (req, res) => {
+    try {
+        console.log(req.params.id);
+        const userdata = await user.findById(req.params.id)
+        if (userdata.status) {
+            await user.findByIdAndUpdate(req.params.id, {
+                status: false
+            })
+            return res.status(200).json(false)
+        }
+        else {
+            await user.findByIdAndUpdate(req.params.id, {
+                status: true
+            })
+            return res.status(200).json(true)
+        }
+    }
+    catch (err) {
+        return res.status(500).json(err);
     }
 }

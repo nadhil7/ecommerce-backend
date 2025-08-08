@@ -1,6 +1,7 @@
 import express from 'express';
-import {logout,login,allusers,showallorders} from '../controllers/adminController.js'
+import {logout,login,allusers,showallorders,statusUpdate} from '../controllers/adminController.js'
 import { middleware } from '../middleware/adminmiddleware.js';
+import { edituser } from '../controllers/userController.js';
 
 const router = express.Router()
 router.post("/login",login)
@@ -15,7 +16,7 @@ router.post("/login",login)
 // })
 router.use(middleware)
 
-
+router.patch("/useredit/:id",statusUpdate)
 router.delete("/logout",logout)
 router.get("/users",allusers)
 router.get("/orders",showallorders)
