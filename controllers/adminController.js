@@ -73,6 +73,8 @@ export const statusUpdate = async (req, res) => {
                 status: true
             })
             return res.status(200).json(true)
+            console.log(err);
+            
         }
     }
     catch (err) {
