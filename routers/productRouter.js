@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import {productlist,productadd,productedit,productdelete} from '../controllers/productController.js';
+import { productlist, productadd, productedit, productdelete } from '../controllers/productController.js';
 import { middleware } from '../middleware/adminmiddleware.js';
 
 
@@ -21,12 +21,12 @@ const upload = multer({
     storage: storage
 }).single('image')
 //router
-router.get('/',productlist)
+router.get('/', productlist)
 //middleware
 router.use(middleware)
 //roters
-router.post('/add',upload,productadd)
-router.put('/edit/:id',upload,productedit)
-router.delete('/delete/:id',productdelete)
+router.post('/add', upload, productadd)
+router.put('/edit/:id', upload, productedit)
+router.delete('/delete/:id', productdelete)
 //exports
 export default router

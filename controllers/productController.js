@@ -17,15 +17,17 @@ export const productadd =async (req,res)=>{
         const {name,price ,discription,categoryname,brand}= req.body
         const categoryfind = await category.findOne({categoryname})
         const categoryId = categoryfind._id
+        const namecategory =categoryfind.name
        const adding = await product.insertOne({
             name,
             price,
             brand,
             categoryId,
             discription,
-            image:req.filename
+            image:req.filename,
+            categoryname:namecategory,
         })
-        return res.status(200).json({message:"product added succesfully"})
+        return res.status(200).json({message:"product added succesfully"},adding)
     }
     catch(err){
         console.log(err);
@@ -41,7 +43,7 @@ export const productedit = async(req,res)=>{
        {
         return res.status(404).json({message:"product not found"});
        }
-       await product.findByIdAndUpdate(req.params.id,{
+       const after = await product.findByIdAndUpdate(req.params.id,{
         name,
         price,
         brand,
@@ -49,7 +51,7 @@ export const productedit = async(req,res)=>{
         discription,
         image:req.filename
        })
-       return res.status(200).json({message:"product updated successfully"})
+       return res.status(200).json({message:"product updated successfully"},after)
     } 
     catch(err){
         console.log(err);
