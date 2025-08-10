@@ -47,6 +47,8 @@ export const showallorders = async (req, res) => {
     try {
         const data = await order.find({}, { __v: 0 })
         if (data) {
+            console.log(data);
+            
             return res.status(200).json(data)
         }
         else {
