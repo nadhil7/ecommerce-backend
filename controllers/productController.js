@@ -23,9 +23,15 @@ export const findproduct = async (req,res) => {
 export const productadd = async (req, res) => {
     try {
         const { name, price, discription, categoryname, brand } = req.body
-        const categoryfind = await category.findOne({ categoryname })
+        console.log(req.body);
+        
+        const categoryfind = await category.findOne({ name:categoryname })
+        console.log(categoryfind);
+        
         const categoryId = categoryfind._id
         const namecategory = categoryfind.name
+        console.log(namecategory);
+        
         const adding = await product.insertOne({
             name,
             price,
