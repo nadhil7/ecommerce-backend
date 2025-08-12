@@ -27,7 +27,6 @@ export const productadd = async (req, res) => {
         
         const categoryfind = await category.findOne({ name:categoryname })
         console.log(categoryfind);
-        
         const categoryId = categoryfind._id
         const namecategory = categoryfind.name
         console.log(namecategory);
