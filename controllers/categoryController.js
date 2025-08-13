@@ -17,7 +17,9 @@ export const categorylist = async (req, res) => {
 
 export const categoryadd = async (req, res) => {
     try {
+        console.log(req.body);
         const { name, discription } = req.body
+        
         if (name != null && discription != null) {
             const catdata = await category.insertOne({
                 name, discription
