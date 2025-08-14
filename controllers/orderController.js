@@ -1,19 +1,20 @@
 import express from "express"
 import order from "../models/order.js"
 import cart from "../models/cart.js"
+import product from '../models/product.js'
 
 export const createorder = async (req, res) => {
     try {
-        const userid = req.session.userid
-        const cartdata = await cart.findOne({ userId: userid })
+        const userId = req.session.userId
+        const cartdata = await cart.findOne({ userId: userId })
         if (!cartdata) {
             return res.status(404).json({ message: "no cart found to place order" })
         }
         else {
             let orderItem = []
             let totalAmount = 0;
-            for (const i of cart.items) {
-                const product = await product.findById(i.productId);
+            for (const i of cartdata.items) {
+                const product = await cart.findById(i.productId);
                 if (!product) continue
 
                 const subTotal = product.price * i.quantity
@@ -27,13 +28,13 @@ export const createorder = async (req, res) => {
                 })
             }
             const orderdata = new order({
-                userId: userid,
+                userId: userId,
                 items: orderItem,
                 total: totalAmount,
             })
             await orderdata.save()
 
-            await cart.findOneAndDelete({ userId: userid })
+            await cart.findOneAndDelete({ userId: userId })
 
             return res.status(200).json({ message: "Order Placed ", data: orderdata })
         }
