@@ -35,7 +35,7 @@ export const createorder = async (req, res) => {
 
             await cart.findOneAndDelete({ userId: userid })
 
-            return res.status(200).json({ message: "Order Placed " , data:orderdata})
+            return res.status(200).json({ message: "Order Placed ", data: orderdata })
         }
     }
     catch (err) {
@@ -51,7 +51,7 @@ export const paymentStatus = async (req, res) => {
             paymentStatus: req.body.paymentStatus
         })
         if (data) {
-            return res.status(200).json({ message: "Payment status updated successfully",data:data })
+            return res.status(200).json({ message: "Payment status updated successfully", data: data })
         }
         else {
             return res.status(404).json({ message: "Order not found" })
@@ -85,7 +85,7 @@ export const cancelOrder = async (req, res) => {
     try {
         const data = await order.findByIdAndDelete({ _id: req.params.id })
         if (data) {
-            return res.status(200).json({message:"Order cancelled successfully"})
+            return res.status(200).json({ message: "Order cancelled successfully" })
         }
         else {
             return res.status(404).json({ message: "Order not found" })
