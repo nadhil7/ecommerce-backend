@@ -45,7 +45,10 @@ export const logout = (req, res) => {
 }
 export const showallorders = async (req, res) => {
     try {
-        const data = await order.find({}, { __v: 0 })
+        const data = await order.find()
+            .populate("userId", "name")
+            .populate({ path: "items.productId", select: "name" });
+
         if (data) {
             return res.status(200).json(data)
         }
@@ -54,6 +57,8 @@ export const showallorders = async (req, res) => {
         }
     }
     catch (err) {
+        console.log(err);
+
         return res.status(500).json({ message: "Internal server error" })
     }
 }

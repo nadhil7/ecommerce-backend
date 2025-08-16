@@ -19,7 +19,7 @@ const model = new schema({
     },
     status:{
         type:Boolean,
-        default:true
+        default:true,
     },
     image:{
         type:String,

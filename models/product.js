@@ -24,6 +24,7 @@ const model = new schema({
     categoryId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
+        ref:"categories"
     },
     categoryname: {
         type: String,

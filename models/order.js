@@ -3,12 +3,14 @@ const schema = mongoose.Schema;
 const model = new schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        require: true
+        require: true,
+        ref:"user"
     },
     items: [{
         productId: {
             type: mongoose.Schema.Types.ObjectId,
-            require: true
+            require: true,
+            ref:"products"
         },
         quantity: {
             type: Number,
