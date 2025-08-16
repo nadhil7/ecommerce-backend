@@ -4,13 +4,13 @@ const model = new schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         require: true,
-        ref:"user"
+        ref: "user"
     },
     items: [{
         productId: {
             type: mongoose.Schema.Types.ObjectId,
             require: true,
-            ref:"products"
+            ref: "products"
         },
         quantity: {
             type: Number,
@@ -37,16 +37,22 @@ const model = new schema({
     },
     paymentStatus: {
         type: String,
-        requried: true
+        requried: true,
+        default:"pending"
     },
     shippingStatus: {
         type: String,
-        requried: true
+        requried: true,
+        default:"preparing to ship"
     },
     createdAt: {
         type: Date,
         require: true,
-        default: Date.now()
+        default: () => {
+            const d = new Date();
+            return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        }
+
     }
 })
 const order = mongoose.model("order", model, "order");
