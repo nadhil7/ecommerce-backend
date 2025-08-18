@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 
 export const login = async (req, res) => {
     const { email, password } = req.query
-    console.log(email,password);
+    console.log(email, password);
     try {
         const data = await user.findOne({ email })
         if (!data) {
@@ -15,7 +15,7 @@ export const login = async (req, res) => {
             return res.status(400).json({ message: "Password incorrect", success: false })
         }
         req.session.userId = data._id;
-        return res.status(200).json({ message: "User logged in ", success: true })
+        return res.status(200).json({ message: "User logged in ", success: true, UserId: req.session.userId })
     }
     catch (err) {
         res.json({ message: "error", success: false })
