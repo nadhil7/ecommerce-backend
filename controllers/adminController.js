@@ -16,7 +16,7 @@ export const login = async (req, res) => {
             return res.status(400).json({ message: "Password incorrect", success: false })
         }
         req.session.adminId = data._id;
-        return res.status(200).json({ message: "Admin logged in", success: true })
+        return res.status(200).json({ message: "Admin logged in", success: true, Id: req.session.adminId })
     }
     catch (err) {
         res.json({ message: err, success: false })
