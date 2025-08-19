@@ -43,13 +43,9 @@ export const showcart = async (req, res) => {
 }
 export const addtocart = async (req, res) => {
     try {
-        if(req.session.userId != req.params.id)
-        {
-            return res.status(200).json({ message: "you can't create cart" })
-
-        }
+        const productId = req.params.id
         const userId = new mongoose.Types.ObjectId(req.session.userId)
-        const { quantity, productId } = req.body
+        const { quantity } = req.body
         const cartdata = await cart.findOne({ userId: userId },{__v:0})
         if (!cartdata) {
             const newcart = await cart.create({
