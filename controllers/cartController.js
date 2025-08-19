@@ -44,6 +44,7 @@ export const showcart = async (req, res) => {
 export const addtocart = async (req, res) => {
     try {
         const productId = req.params.id
+        console.log(productId);
         const userId = new mongoose.Types.ObjectId(req.session.userId)
         const { quantity } = req.body
         const cartdata = await cart.findOne({ userId: userId },{__v:0})
