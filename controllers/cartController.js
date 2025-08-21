@@ -111,6 +111,24 @@ export const editcart = async (req, res) => {
     }
 }
 
+export const deleteitem = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const userId = new mongoose.Types.ObjectId(req.session.userId)
+        let cartdata = await cart.findOne({ userId: userId })
+        const itemindex = cartdata.items.findIndex(index => index.productId == productId)
+        if (itemindex < 0) {
+            return res.status(404).json({ message: "cart item not found", success: true })
+        }
+        const editedcart = cartdata.items.splice(itemindex, 1);
+        const response = await cartdata.save();
+        return res.status(200).json({ message: "item deleted successfully", response, success: true })
+    }
+    catch (err) {
+        console.log(err);
+
+    }
+}
 export const deletecart = async (req, res) => {
     try {
         const userId = new mongoose.Types.ObjectId(req.session.userId)
