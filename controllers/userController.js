@@ -52,15 +52,37 @@ export const getUserById = async (req, res) => {
 }
 export const edituser = async (req, res) => {
     try {
-        const { name, email, password, phone } = req.body
-        await user.findByIdAndUpdate(req.params.id, {
-            name,
-            email,
-            password,
-            phone,
-            image: req.filename
-        })
-        return res.json({ message: "user updated", success: true });
+        const { name, email, password, oldpassword, phone } = req.body;
+        console.log(req.body);
+        if (password) {
+            const userData = user.findOne({ _id: req.params.id })
+            const salt = 10;
+            const hashedpass = await bcrypt.hash(oldpassword, salt)
+            const comparing = bcrypt.compare(hashedpass, userData.password)
+            if (comparing) {
+                const salt = 10;
+                const passswordhash = await bcrypt.hash(password, salt)
+                await user.findByIdAndUpdate(req.params.id, {
+                    name,
+                    email,
+                    password,
+                    phone,
+                    image: req.filename
+                })
+                return res.json({ message: "user updated", success: true });
+            }
+        }
+        else {
+            await user.findByIdAndUpdate(req.params.id, {
+                name,
+                email,
+                password,
+                phone,
+                image: req.filename
+            })
+            return res.json({ message: "user updated", success: true });
+        }
+        return res.json({ message: "incorrect Old password", success: false })
     }
     catch (err) {
         console.log(err);
