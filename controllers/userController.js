@@ -29,7 +29,7 @@ export const signup = async (req, res) => {
         await data.save();
         req.session.userId = data._id
         return res.json({
-            message: "user created", data
+            message: "user created", data, success: true
         })
     }
     catch (err) {
@@ -43,7 +43,7 @@ export const getUserById = async (req, res) => {
         if (!userdata) {
             return res.status(404).json({ message: "user not found" })
         }
-        return res.json(userdata)
+        return res.json({ userdata, success: true })
     }
     catch (err) {
         console.log(err);
@@ -60,7 +60,7 @@ export const edituser = async (req, res) => {
             phone,
             image: req.filename
         })
-        return res.json({ message: "user updated" });
+        return res.json({ message: "user updated", success: true });
     }
     catch (err) {
         console.log(err);
@@ -71,16 +71,16 @@ export const edituser = async (req, res) => {
 export const deleteuser = async (req, res) => {
     try {
         const userId = new mongoose.Types.ObjectId(req.session.userId)
-        const users = await user.findOne({userId:userId});
+        const users = await user.findOne({ userId: userId });
         if (!users) {
             return res.status(404).json({ message: "no user found" })
         }
         if (req.session.userId == req.params.id) {
             await user.findByIdAndDelete(req.params.id);
             const deluser = req.session.userId = null;
-            return res.status(200).json({ users, message: "this user deleted successfully" })
+            return res.status(200).json({ users, message: "this user deleted successfully", success: true })
         }
-        return res.status(404).json({ message: "user did'nt deleted " })
+        return res.status(404).json({ message: "user did'nt deleted ", success: false })
 
     }
     catch (err) {

@@ -23,6 +23,8 @@ export const showcart = async (req, res) => {
                     quantity: "$items.quantity",
                     name: "$productDetails.name",
                     price: "$productDetails.price",
+                    image: "$productDetails.image",
+                    discription: "$productDetails.discription",
                     subTotal: {
                         $multiply: ["$items.quantity", "$productDetails.price"]
                     }
@@ -44,10 +46,10 @@ export const showcart = async (req, res) => {
 export const addtocart = async (req, res) => {
     try {
         const productId = req.params.id
-        console.log(productId);
         const userId = new mongoose.Types.ObjectId(req.session.userId)
-        const { quantity } = req.body
-        const cartdata = await cart.findOne({ userId: userId },{__v:0})
+        const { quantity1 } = req.body
+        const quantity = Number(quantity1)
+        const cartdata = await cart.findOne({ userId: userId }, { __v: 0 })
         if (!cartdata) {
             const newcart = await cart.create({
                 userId,
@@ -56,12 +58,13 @@ export const addtocart = async (req, res) => {
                     quantity
                 }]
             })
-            return res.status(200).json(cartdata)
+            return res.status(200).json(newcart)
         }
         else {
             const itemindex = cartdata.items.findIndex(index => index.productId == productId)
             if (itemindex > -1) {
                 let productadd = cartdata.items[itemindex]
+
                 productadd.quantity += quantity
                 cartdata.items[itemindex] = productadd
             }
@@ -71,7 +74,7 @@ export const addtocart = async (req, res) => {
                 })
             }
             const addedcart = await cartdata.save()
-            return res.status(200).json({ message: "added to cart", addedcart })
+            return res.status(200).json({ message: "added to cart", addedcart, success: true })
         }
     }
     catch (err) {
