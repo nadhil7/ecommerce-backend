@@ -33,8 +33,8 @@ export const signup = async (req, res) => {
         })
     }
     catch (err) {
-        res.json({ message: "error occured!" });
         console.log(err);
+        return res.json({ message: "error occured!" });
     }
 }
 export const getUserById = async (req, res) => {
@@ -57,8 +57,7 @@ export const edituser = async (req, res) => {
         if (password) {
             const userData = await user.findById(req.params.id)
             const salt = 10;
-            const hashedpass = await bcrypt.hash(oldpassword, salt)
-            const comparing = await bcrypt.compare(hashedpass, userData.password)
+            const comparing = await bcrypt.compare(oldpassword, userData.password)
             if (comparing) {
                 const salt = 10;
                 const passswordhash = await bcrypt.hash(password, salt)
