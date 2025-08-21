@@ -53,12 +53,12 @@ export const getUserById = async (req, res) => {
 export const edituser = async (req, res) => {
     try {
         const { name, email, password, oldpassword, phone } = req.body;
-        console.log(req.body);
+
         if (password) {
-            const userData = user.findOne({ _id: req.params.id })
+            const userData = await user.findById(req.params.id)
             const salt = 10;
             const hashedpass = await bcrypt.hash(oldpassword, salt)
-            const comparing = bcrypt.compare(hashedpass, userData.password)
+            const comparing = await bcrypt.compare(hashedpass, userData.password)
             if (comparing) {
                 const salt = 10;
                 const passswordhash = await bcrypt.hash(password, salt)
