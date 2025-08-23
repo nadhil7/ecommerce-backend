@@ -48,6 +48,8 @@ export const createorder = async (req, res) => {
         await orderdata.save();
 
         await cart.findOneAndDelete({ userId });
+        console.log(orderdata);
+        
 
         return res.status(200).json({ message: "Order Placed", data: orderdata, success: true });
     }
