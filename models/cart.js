@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import product from './product';
 const schema = mongoose.Schema;
 const model = new schema({
     userId: {
@@ -12,6 +13,10 @@ const model = new schema({
         },
         quantity: {
             type: Number,
+            require: true,
+        },
+        productname: {
+            type: String,
             require: true,
         },
         AddedAt: {

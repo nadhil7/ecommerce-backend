@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import cart from '../models/cart.js'
+import product from '../models/product.js';
 
 export const showcart = async (req, res) => {
     try {
@@ -49,13 +50,15 @@ export const addtocart = async (req, res) => {
         const userId = new mongoose.Types.ObjectId(req.session.userId)
         const { quantity1 } = req.body
         const quantity = Number(quantity1)
+        const productsdata = await product.findOne({ _id: req.params.id })
         const cartdata = await cart.findOne({ userId: userId }, { __v: 0 })
         if (!cartdata) {
             const newcart = await cart.create({
                 userId,
                 items: [{
                     productId,
-                    quantity
+                    quantity,
+                    productname: productsdata.name
                 }]
             })
             return res.status(200).json(newcart)
@@ -86,7 +89,7 @@ export const editcart = async (req, res) => {
     try {
         const userId = req.session.userId;
         const { reqquantity, reqproductId } = req.body
-        let cartdata = await cart.findById({ userId: userId })
+        let cartdata = await cart.findOne({ userId: userId })
         // console.log(cartdata);
         const itemindex = cartdata.items.findIndex(index => index.productId == reqproductId)
         if (itemindex > -1) {
