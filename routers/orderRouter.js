@@ -11,5 +11,4 @@ router.patch("/status/:id", paymentStatus)
 router.get("/myorder/:id", showOrder)
 router.delete("/cancel/:id", cancelOrder)
 //exports
-export default router
 
