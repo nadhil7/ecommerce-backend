@@ -29,6 +29,7 @@ export const createorder = async (req, res) => {
 
             orderItems.push({
                 productId: prod._id,
+                productname: prod.name,
                 price: prod.price,
                 quantity: item.quantity,
                 subtotal: subTotal

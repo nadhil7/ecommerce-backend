@@ -57,6 +57,7 @@ export const addtocart = async (req, res) => {
                 userId,
                 items: [{
                     productId,
+                    productname: productsdata.name,
                     quantity,
                     productname: productsdata.name
                 }]

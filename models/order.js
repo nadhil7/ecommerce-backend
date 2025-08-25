@@ -12,6 +12,10 @@ const model = new schema({
             require: true,
             ref: "products"
         },
+         productname: {
+            type: String,
+            require: true,
+        },
         quantity: {
             type: Number,
             require: true,
