@@ -2,6 +2,7 @@ import express from "express"
 import order from "../models/order.js"
 import cart from "../models/cart.js"
 import product from '../models/product.js'
+import mongoose from "mongoose"
 
 export const createorder = async (req, res) => {
     try {
@@ -49,8 +50,6 @@ export const createorder = async (req, res) => {
 
         await cart.findOneAndDelete({ userId });
         console.log(orderdata);
-        
-
         return res.status(200).json({ message: "Order Placed", data: orderdata, success: true });
     }
     catch (err) {
@@ -81,18 +80,41 @@ export const paymentStatus = async (req, res) => {
 
 export const showOrder = async (req, res) => {
     try {
-        const data = await order.findById({ _id: req.params.id })
-        if (data) {
-            return res.status(200).json(data)
+        const data = await order.findById(req.params.id);
+        if (!data) {
+            return res.status(404).json({ message: "Order not found" });
         }
-        else {
-            return res.status(404).json({ message: "Order not found" })
-        }
+
+        const productsData = await Promise.all(
+            data.items.map((i) =>
+                product.findOne({ _id: i.productId }).exec()
+            )
+        );
+
+        console.log(productsData);
+
+        return res.status(200).json({
+            order: data,
+            products: productsData,
+            success: true
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
+export const showallorders = async (req, res) => {
+    try {
+        const userId = new mongoose.Types.ObjectId(req.params.id)
+        const allorders = await order.find({ userId: userId })
+        return res.status(200).json({ message: "user orders", allorders, success: true })
     }
     catch (err) {
         console.log(err);
-
-        return res.status(500).json({ message: "Internal server error" })
+        return res.status(500).json({ message: "internel error occcured", success: false })
     }
 }
 
