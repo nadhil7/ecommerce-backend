@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import { productlist, productadd, productedit, productdelete, findproduct } from '../controllers/productController.js';
+import { productlist, productadd, productedit, productdelete, findproduct, productsearch } from '../controllers/productController.js';
 import { middleware } from '../middleware/adminmiddleware.js';
 
 
@@ -23,6 +23,7 @@ const upload = multer({
 //router
 router.get('/', productlist)
 router.get('/find/:id', findproduct)
+router.get('/search/:query', productsearch)
 //middleware
 router.use(middleware)
 //roters

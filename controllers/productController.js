@@ -11,24 +11,24 @@ export const productlist = async (req, res) => {
         console.log(err);
     }
 }
-export const findproduct = async (req,res) => {
+export const findproduct = async (req, res) => {
     try {
         const productdata = await product.findById(req.params.id)
-        return res.status(200).json({productdata});
+        return res.status(200).json({ productdata });
     }
     catch (err) {
-       return res.status(500).json(err)
+        return res.status(500).json(err)
     }
 }
 export const productadd = async (req, res) => {
     try {
         const { name, price, discription, categoryname, brand } = req.body
         console.log(req.body);
-        const categoryfind = await category.findOne({ name:categoryname })
+        const categoryfind = await category.findOne({ name: categoryname })
         console.log(categoryfind);
         const categoryId = categoryfind._id
         const namecategory = categoryfind.name
-        
+
         const adding = await product.insertOne({
             name,
             price,
@@ -43,6 +43,23 @@ export const productadd = async (req, res) => {
     catch (err) {
         console.log(err);
         return res.status(500).json({ message: "error occured" })
+    }
+}
+
+export const productsearch = async (req, res) => {
+    try {
+        const { query } = req.query;
+        console.log(query);
+        
+        if (!query) {
+            return res.status(400).json({ error: "Missing search parameter 'query'" });
+        }
+        const regex = new RegExp(query, "i");
+        const results = await product.find({ name: regex });
+        return res.status(200).json(results);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Search failed" });
     }
 }
 
