@@ -48,9 +48,8 @@ export const productadd = async (req, res) => {
 
 export const productsearch = async (req, res) => {
     try {
-        const { query } = req.query;
+        const query = req.params.query;
         console.log(query);
-        
         if (!query) {
             return res.status(400).json({ error: "Missing search parameter 'query'" });
         }

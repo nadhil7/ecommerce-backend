@@ -62,12 +62,34 @@ export const createorder = async (req, res) => {
 
 export const paymentStatus = async (req, res) => {
     const id = req.params.id;
+    console.log(id);
+    console.log(req.body.paymentStatus);
+
     try {
         const data = await order.findByIdAndUpdate(id, {
             paymentStatus: req.body.paymentStatus
         })
         if (data) {
             return res.status(200).json({ message: "Payment status updated successfully", data: data })
+        }
+        else {
+            return res.status(404).json({ message: "Order not found" })
+        }
+    }
+    catch (err) {
+        return res.status(500).json({ message: "error :- can't change the status" })
+    }
+}
+export const shipstatus = async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    console.log(req.body.shippingstatus);
+    try {
+        const data = await order.findByIdAndUpdate(id, {
+            shippingStatus: req.body.shippingstatus
+        })
+        if (data) {
+            return res.status(200).json({ message: "shipping status updated successfully", data: data })
         }
         else {
             return res.status(404).json({ message: "Order not found" })
