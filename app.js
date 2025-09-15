@@ -12,7 +12,7 @@ import orderRouter from './routers/orderRouter.js'
 import cors from 'cors'
 
 //database
-const uri = "mongodb+srv://nadhunadhil33429_db_user:Admin123shanu@cluster1.noy1nfg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1"
+const uri = "mongodb+srv://nadhunadhil33429_db_user:Admin123shanu@cluster1.noy1nfg.mongodb.net/ecomercebackend?retryWrites=true&w=majority&appName=Cluster1";
 mongoose.connect(uri).then(() => {
     console.log("database connected")
 })
@@ -25,7 +25,7 @@ app.use(session({
     secret: "hahaha",
     resave: false,
     saveUninitialized: false,
-    store: mongostore.create({ mongoUrl: "mongodb://127.0.0.1:27017/ecomercebackend" })
+    store: mongostore.create({ mongoUrl: "mongodb+srv://nadhunadhil33429_db_user:Admin123shanu@cluster1.noy1nfg.mongodb.net/ecomercebackend?retryWrites=true&w=majority&appName=Cluster1" })
 }))
 app.use(express.static('uploads'))
 app.use("/admin", adminRouter);
