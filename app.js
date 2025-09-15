@@ -12,7 +12,7 @@ import orderRouter from './routers/orderRouter.js'
 import cors from 'cors'
 
 //database
-const uri = "mongodb://127.0.0.1:27017/ecomercebackend"
+const uri = "mongodb+srv://nadhunadhil33429_db_user:Admin123shanu@cluster1.noy1nfg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1"
 mongoose.connect(uri).then(() => {
     console.log("database connected")
 })
@@ -20,7 +20,7 @@ mongoose.connect(uri).then(() => {
 const app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors({origin:"http://localhost:5173",credentials:true}))
+app.use(cors({ origin: ["http://13.232.71.99:5173", "http://localhost:5173"], credentials: true }))
 app.use(session({
     secret: "hahaha",
     resave: false,

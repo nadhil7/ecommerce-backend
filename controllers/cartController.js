@@ -46,6 +46,7 @@ export const showcart = async (req, res) => {
 }
 export const addtocart = async (req, res) => {
     try {
+        console.log("hi");
         const productId = req.params.id
         const userId = new mongoose.Types.ObjectId(req.session.userId)
         const { quantity1 } = req.body
