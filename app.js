@@ -28,7 +28,7 @@ app.use(session({
     store: mongostore.create({ mongoUrl: "mongodb+srv://nadhunadhil33429_db_user:Admin123shanu@cluster1.noy1nfg.mongodb.net/ecomercebackend?retryWrites=true&w=majority&appName=Cluster1" })
 }))
 app.use(express.static('uploads'))
-app.use("/admin", adminRouter);
+app.use("/api/admin", adminRouter);
 app.use((req, res, next) => {
     res.locals.message = req.session.message;
     delete req.session.message
@@ -36,13 +36,13 @@ app.use((req, res, next) => {
 })
 
 //router directions
-app.use("/admin", adminRouter);
-app.use("/login", loginRouter);
-app.use("/user", userRouter);
-app.use("/category", categoryRouter);
-app.use("/product", productRouter);
-app.use("/cart", cartRouter);
-app.use("/order", orderRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/login", loginRouter);
+app.use("/api/user", userRouter);
+app.use("/api/category", categoryRouter);
+app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/order", orderRouter);
 //server start  
 app.listen(4000, (req, res) => {
     return console.log("server started %");
