@@ -27,7 +27,7 @@ app.use(session({
     saveUninitialized: false,
     store: mongostore.create({ mongoUrl: "mongodb+srv://nadhunadhil33429_db_user:Admin123shanu@cluster1.noy1nfg.mongodb.net/ecomercebackend?retryWrites=true&w=majority&appName=Cluster1" })
 }))
-app.use(express.static('uploads'))
+app.use('/api', express.static('uploads'))
 app.use("/api/admin", adminRouter);
 app.use((req, res, next) => {
     res.locals.message = req.session.message;
