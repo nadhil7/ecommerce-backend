@@ -20,15 +20,15 @@ export const categoryadd = async (req, res) => {
     try {
         console.log(req.body);
         const { name, discription } = req.body
-        
+
         if (name != null && discription != null) {
             const catdata = await category.insertOne({
                 name, discription
             })
             return res.status(200).json({ message: "category added successfully", addedcategory: catdata })
         }
-        else{
-            return res.status(404).json({ message: "name and discription cannot be null"})
+        else {
+            return res.status(404).json({ message: "name and discription cannot be null" })
         }
     }
     catch (err) {
@@ -61,9 +61,14 @@ export const categorydelete = async (req, res) => {
         if (!data) {
             return res.status(404).json({ message: "no category found to delete" })
         }
-        await product.deleteMany({ categoryId: req.params.id })
+        const productdata = await product.deleteMany({ categoryId: req.params.id })
+        if (productdata) {
         await category.findByIdAndDelete(req.params.id)
         return res.status(200).json({ message: "category deleted successfully" })
+        }
+        else{
+            return res.status(300).json({ message: "error while deleting category" })
+        }
     }
     catch (err) {
         console.log(err);
