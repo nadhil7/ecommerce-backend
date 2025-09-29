@@ -38,12 +38,12 @@ app.use((req, res, next) => {
 //router directions
 app.use("/api/admin", adminRouter);
 app.use("/api/login", loginRouter);
-app.use("/api/user", userRouter);
-app.use("/api/category", categoryRouter);
-app.use("/api/product", productRouter);
-app.use("/api/cart", cartRouter);
-app.use("/api/order", orderRouter);
-//server start  
-app.listen(4000, (req, res) => {
-    return console.log("server started %");
+// app.use("/api/user", userRouter);
+// app.use("/api/category", categoryRouter);
+// app.use("/api/product", productRouter);
+// app.use("/api/cart", cartRouter);
+// app.use("/api/order", orderRouter);
+// //server start  
+// app.listen(4000, (req, res) => {
+//     return console.log("server started %");
 })
