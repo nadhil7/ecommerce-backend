@@ -13,13 +13,13 @@ import cors from 'cors'
 
 //database
 const uri = "mongodb+srv://nadhunadhil33429_db_user:Admin123shanu@cluster1.noy1nfg.mongodb.net/ecomercebackend?retryWrites=true&w=majority&appName=Cluster1";
-mongoose.connect(uri).then(() => {
-    console.log("database connected")
-})
-//middlewares
-const app = express();
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+// mongoose.connect(uri).then(() => {
+//     console.log("database connected")
+// })
+// //middlewares
+// const app = express();
+// app.use(express.json())
+// app.use(express.urlencoded({ extended: true }))
 app.use(cors({ origin: ["http://13.232.71.99:5173", "http://localhost:5173"], credentials: true }))
 app.use(session({
     secret: "hahaha",
